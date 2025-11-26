@@ -8,8 +8,9 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
@@ -26,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     horizontalMotor = new TalonFX(32);
     rotateMotor = new TalonFX(30);
     rotateEncoder = new CANcoder(30);
-    rotatePID = new PIDController(200, 0, 0.1);
+    rotatePID = new PIDController(30, 0, 0.05); //FIX: Change p to 10 maybe, mess around with d also
   }
   
   public void SetVerticalIntake(double speed) {
@@ -38,7 +39,17 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void RotateIntake(double intendedPosition) {
-    rotateMotor.set(rotatePID.calculate(rotateEncoder.getPosition().getValueAsDouble(), intendedPosition));
+    double encoderValue = rotateEncoder.getPosition().getValueAsDouble();
+    double speed = Constants.IntakeConstants.holdIntakeSpeed * Math.cos(encoderValue * Math.PI * 2);
+    double PIDValue = rotatePID.calculate(rotateEncoder.getPosition().getValueAsDouble(), intendedPosition);
+    rotateMotor.set(PIDValue + speed);
+    SmartDashboard.putNumber("intakeSpeed", speed);
+    SmartDashboard.putNumber("finalIntakeSpeed", PIDValue + speed);
+
+  }
+
+  public void TestMotor(double power) {
+    rotateMotor.set(power);
   }
 
   @Override

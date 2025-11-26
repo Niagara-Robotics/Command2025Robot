@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.IntakeMotorTestCommand;
 import frc.robot.commands.IntakeRotateCommand;
 import frc.robot.commands.RollerCommand;
 import edu.wpi.first.wpilibj.Joystick;
@@ -34,7 +35,10 @@ public class RobotContainer {
     
     moveRollers.whileTrue(rollerCommand);
     intakeDown.onTrue(new IntakeRotateCommand(intakeSubsystem, -0.15));
-    intakeUp.onTrue(new IntakeRotateCommand(intakeSubsystem, -0.4));
+    intakeUp.onTrue(new IntakeRotateCommand(intakeSubsystem, -0.38));
+    // intakeUp.onTrue(new IntakeMotorTestCommand(intakeSubsystem, -0.03));
+
+
     // intakeSubsystem.setDefaultCommand(new IntakeRotateCommand(intakeSubsystem));
     // intakeSubsystem.setDefaultCommand(
     //   new IntakeCommand(intakeSubsystem, ()-> driverStick.getRawButton(6))
