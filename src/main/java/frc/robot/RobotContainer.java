@@ -34,8 +34,8 @@ public class RobotContainer {
     Trigger intakeUp = new Trigger(() -> driverStick.getRawButton(7));
     
     moveRollers.whileTrue(rollerCommand);
-    intakeDown.onTrue(new IntakeRotateCommand(intakeSubsystem, -0.15));
-    intakeUp.onTrue(new IntakeRotateCommand(intakeSubsystem, -0.38));
+    intakeDown.whileTrue(new IntakeRotateCommand(intakeSubsystem, -0.05)); //RT
+    intakeUp.whileTrue(new IntakeRotateCommand(intakeSubsystem, -0.35)); //LT
     // intakeUp.onTrue(new IntakeMotorTestCommand(intakeSubsystem, -0.03));
 
 
